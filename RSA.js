@@ -21,13 +21,22 @@ export default{
 		obj['sign'] = md5(str).toLowerCase();
 		return obj;
 	},
+	/**
+	 * [RsaEncrpt 对数据进行Rsa加密]
+	 * @param {[mix]} data [需要加密的数据]
+	 * @return {[mix]} [加密后的数据或false]
+	 */
 	RsaEncrpt( data ){
 		let encrypt = new JSEncrypt();
-		let publicKey = 'publicKey';
+		let publicKey = 'publicKey';//公钥
 		encrypt.setPublicKey( publicKey );
-		if( typeof(data) == 'string' ) return encrypt.encrypt(str);
-		if( typeof(data) == 'object' || ){
-
+		let str = data;
+		if( typeof(data) != 'string' ){
+			str = JSON.stringify(data);
 		}
+		if(str.length > 128){ //加密字符串长度由生成密钥对时定义
+			return false;
+		}
+		return encrypt.encrypt(str);
 	}
 }
